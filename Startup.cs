@@ -29,8 +29,9 @@ namespace RestAPI
         {
 
             services.AddSingleton<IInMemItems, InMemItems>();
-           
- 
+
+            services.AddCors();
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -47,12 +48,19 @@ namespace RestAPI
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "RestAPI v1"));
             }
+            
+            app.UseCors(builder =>
+            builder.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
             app.UseAuthorization();
+
+           
 
             app.UseEndpoints(endpoints =>
             {
